@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  llm_server:
+    build: .
+    command: python3 llm_server_test.py
+    restart: unless-stopped
+    container_name: llm_server_container
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8001:8001"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "description=LLM Server for processing language models"
+
+  import_meteo:
+    build: .
+    command: python3 import_meteo_test.py
+    restart: unless-stopped
+    container_name: import_meteo_container
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8002:8002"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "description=Import Meteo Server for weather data processing"
+
+  geoeco:
+    build: .
+    command: python3 geoeco_test.py
+    restart: unless-stopped
+    container_name: geoeco_container
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8003:8003"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "description=GeoEco Server for environmental data analysis"
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    container_name: portainer_container
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./portainer-data:/data
+    ports:
+      - "9000:9000"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "description=Portainer for container management"
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    container_name: watchtower_container
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 86400 --cleanup
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+    labels:
+      - "description=Watchtower for automatic container updates" 
