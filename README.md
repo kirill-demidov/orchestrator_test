@@ -1,68 +1,68 @@
-# Оркестрация сервисов
+# Service Orchestration
 
-Этот проект содержит конфигурацию Docker Compose для оркестрации сервисов с веб-интерфейсом управления.
+This project contains Docker Compose configuration for service orchestration with web-based management interface.
 
-## Требования
+## Requirements
 
 - Docker
 - Docker Compose
 
-## Установка и запуск
+## Installation and Setup
 
-1. Скопируйте все файлы проекта в рабочую директорию
-2. Убедитесь, что у вас есть файл `requirements.txt` со всеми необходимыми зависимостями
-3. Запустите все сервисы:
+1. Copy all project files to your working directory
+2. Ensure you have a `requirements.txt` file with all necessary dependencies
+3. Start all services:
 
 ```bash
 docker-compose up -d
 ```
 
-## Управление через Portainer
+## Portainer Management
 
-После запуска сервисов, Portainer будет доступен по адресу:
+After starting the services, Portainer will be available at:
 ```
-http://[IP-адрес-сервера]:9000
+http://[server-ip-address]:9000
 ```
 
-При первом входе в Portainer:
-1. Создайте учетную запись администратора
-2. Выберите "Local Docker Environment"
-3. Теперь вы можете управлять всеми контейнерами через веб-интерфейс
+On first Portainer login:
+1. Create an administrator account
+2. Select "Local Docker Environment"
+3. Now you can manage all containers through the web interface
 
-## Доступные сервисы
+## Available Services
 
-- llm_server (порт 8001)
-- import_meteo (порт 8002)
-- geoeco (порт 8003)
+- llm_server (port 8001)
+- import_meteo (port 8002)
+- geoeco (port 8003)
 
-## Управление через командную строку
+## Command Line Management
 
-- Запуск всех сервисов:
+- Start all services:
 ```bash
 docker-compose up -d
 ```
 
-- Остановка всех сервисов:
+- Stop all services:
 ```bash
 docker-compose down
 ```
 
-- Просмотр логов:
+- View logs:
 ```bash
-docker-compose logs -f [имя_сервиса]
+docker-compose logs -f [service_name]
 ```
 
-- Перезапуск конкретного сервиса:
+- Restart specific service:
 ```bash
-docker-compose restart [имя_сервиса]
+docker-compose restart [service_name]
 ```
 
-## Автоматическое обновление
+## Automatic Updates
 
-Проект включает Watchtower для автоматического обновления контейнеров. Обновления проверяются раз в сутки.
+The project includes Watchtower for automatic container updates. Updates are checked daily.
 
-## Безопасность
+## Security
 
-- Portainer настроен с ограниченными привилегиями
-- Все сервисы изолированы в отдельных контейнерах
-- Используется политика перезапуска unless-stopped 
+- Portainer configured with limited privileges
+- All services isolated in separate containers
+- Uses unless-stopped restart policy 
